@@ -8,10 +8,11 @@ db = client['stockcodes']
 
 f= open('HS300.txt','r')
 all_text = f.read()
-stockcodes = re.findall('\d{6}',all_text)
-for stockcode in stockcodes:
+stocks = all_text.split('\r\n')
+for stock in stocks:
     result = db.HS300.insert_one({
-        "stockcode" : stockcode
+        "stockcode" : stock[:6],
+        "name":stock.split('\t')[1]
     })
     print result.inserted_id
 f.close()
